@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Certimaker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <div class="seal" aria-hidden="true"></div>
+    <div>
+      <h1>Certimaker</h1>
+      <p>Generate certificates in bulk with ease.</p>
+    </div>
+  </header>
+
+  <main class="layout">
+
+    <!-- LEFT: controls -->
+    <section class="controls">
+
+      <div class="card">
+        <h2><span class="step">1</span> Upload template</h2>
+        <input type="file" id="templateInput" accept="image/*">
+        <p class="hint">Pick a certificate background (PNG or JPG).</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="step">2</span> Import names</h2>
+        <input type="file" id="namesInput" accept=".xlsx,.csv">
+        <p class="hint">Names go in the first column.</p>
+        <p id="nameCount" class="count">No names loaded yet.</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="step">3</span> Style the name</h2>
+
+        <label for="previewSelect">Preview name</label>
+        <select id="previewSelect"></select>
+
+        <div class="row">
+          <div>
+            <label for="fontSize">Font size</label>
+            <input type="number" id="fontSize" value="60" min="10" max="400">
+          </div>
+          <div>
+            <label for="textColor">Color</label>
+            <input type="color" id="textColor" value="#1f2937">
+          </div>
+        </div>
+
+        <label for="fontFamily">Font</label>
+        <select id="fontFamily">
+          <option>Georgia</option>
+          <option>Arial</option>
+          <option>Times New Roman</option>
+          <option>Courier New</option>
+          <option>Verdana</option>
+          <option>Brush Script MT</option>
+        </select>
+
+        <div class="row">
+          <div>
+            <label for="posX">Position X</label>
+            <input type="number" id="posX">
+          </div>
+          <div>
+            <label for="posY">Position Y</label>
+            <input type="number" id="posY">
+          </div>
+        </div>
+        <button class="btn light" id="centerBtn">Center the name</button>
+      </div>
+
+      <div class="card">
+        <h2><span class="step">4</span> Add a date</h2>
+
+        <label class="check">
+          <input type="checkbox" id="dateOn" checked>
+          Show date on certificates
+        </label>
+
+        <div class="row">
+          <div>
+            <label for="dateValue">Date</label>
+            <input type="date" id="dateValue">
+          </div>
+          <div>
+            <label for="dateFormat">Format</label>
+            <select id="dateFormat">
+              <option value="long">12 March 2026</option>
+              <option value="us">March 12, 2026</option>
+              <option value="slash">12/03/2026</option>
+              <option value="iso">2026-03-12</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="dateSize">Font size</label>
+            <input type="number" id="dateSize" value="30" min="8" max="300">
+          </div>
+          <div>
+            <label for="dateColor">Color</label>
+            <input type="color" id="dateColor" value="#374151">
+          </div>
+        </div>
+        <button class="btn light" id="dateResetBtn">Reset date position</button>
+      </div>
+
+      <div class="card">
+        <h2><span class="step">5</span> Add a signature</h2>
+
+        <label class="check">
+          <input type="checkbox" id="signOn" checked>
+          Show signature on certificates
+        </label>
+
+        <label for="signText">Typed signature</label>
+        <input type="text" id="signText" placeholder="e.g. Jane Doe">
+
+        <label for="signInput">Or upload a signature image</label>
+        <input type="file" id="signInput" accept="image/*">
+        <p class="hint">A PNG with a transparent background looks best. An image replaces the typed signature.</p>
+
+        <div class="row">
+          <div>
+            <label for="signSize">Size</label>
+            <input type="number" id="signSize" value="60" min="10" max="1000">
+          </div>
+          <div>
+            <label for="signColor">Color (typed)</label>
+            <input type="color" id="signColor" value="#1e3a8a">
+          </div>
+        </div>
+        <button class="btn light" id="signClearBtn">Remove image</button>
+        <button class="btn light" id="signResetBtn">Reset position</button>
+      </div>
+
+      <div class="card">
+        <h2><span class="step">6</span> Download</h2>
+        <button class="btn green" id="imagesBtn">Download images</button>
+        <button class="btn green" id="pdfBtn">Download PDF</button>
+        <p id="status" class="status"></p>
+      </div>
+
+    </section>
+
+    <!-- RIGHT: preview -->
+    <section class="card preview">
+      <h2>Live preview</h2>
+
+      <div class="mover" role="radiogroup" aria-label="Choose what to drag">
+        <span>Drag on the preview to move:</span>
+        <label><input type="radio" name="moveTarget" value="name" checked><span>Name</span></label>
+        <label><input type="radio" name="moveTarget" value="date"><span>Date</span></label>
+        <label><input type="radio" name="moveTarget" value="sign"><span>Signature</span></label>
+      </div>
+
+      <canvas id="canvas" width="800" height="560"></canvas>
+    </section>
+
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
